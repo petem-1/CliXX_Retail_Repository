@@ -3,7 +3,9 @@ pipeline {
 
     environment {
         VERSION = "1.0.${BUILD_NUMBER}"
-        PATH = "${PATH}:${getSonarPath()}"
+        // Hardcoded Java 11 path — SonarScanner 4.7's JS analyzer breaks under Java 21's module restrictions
+        JAVA_HOME = '/usr/lib/jvm/java-11-amazon-corretto.x86_64'
+        PATH = "${env.JAVA_HOME}/bin:${getSonarPath()}:${env.PATH}"
     }
 
     stages {
@@ -12,16 +14,18 @@ pipeline {
                 script {
                     scannerHome = tool 'sonarqube'
                 }
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]){
+                sh "echo Scanner home is: ${scannerHome}"
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     withSonarQubeEnv('SonarQubeScanner') {
-                        sh " ${scannerHome}/bin/sonar-scanner \
+                        sh "${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=Clixx-App-Pete \
                         -Dsonar.login=${SONAR_TOKEN} "
                     }
                 }
             }
         }
-        stage('Quality Gate') {
+
+        stage ('Quality Gate') {
             steps {
                 timeout(time: 3, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
@@ -32,6 +36,6 @@ pipeline {
 }
 
 def getSonarPath(){
-    def SonarHome= tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+    def SonarHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
     return SonarHome
 }
