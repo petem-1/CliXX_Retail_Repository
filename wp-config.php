@@ -79,6 +79,8 @@ $table_prefix = 'wp_';
  */
 define( 'WP_DEBUG', false );
 
+define('WP_SITEURL', 'http://Clixx-APP-NLB-1363d502492a3599.elb.us-east-1.amazonaws.com');
+define('WP_HOME', 'http://Clixx-APP-NLB-1363d502492a3599.elb.us-east-1.amazonaws.com');
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
