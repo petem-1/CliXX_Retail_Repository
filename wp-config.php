@@ -79,8 +79,14 @@ $table_prefix = 'wp_';
  */
 define( 'WP_DEBUG', false );
 
-define('WP_SITEURL', 'http://Clixx-APP-NLB-1363d502492a3599.elb.us-east-1.amazonaws.com');
-define('WP_HOME', 'http://Clixx-APP-NLB-1363d502492a3599.elb.us-east-1.amazonaws.com');
+define('WP_HOME', 'https://clixx-ecs.stack-peter.com');
+define('WP_SITEURL', 'https://clixx-ecs.stack-peter.com');
+/*
+ * The NLB terminates TLS, while WordPress receives the forwarded
+ * connection on the container's HTTP port.
+ */
+$_SERVER['HTTPS'] = 'on';
+$_SERVER['SERVER_PORT'] = 443;
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
