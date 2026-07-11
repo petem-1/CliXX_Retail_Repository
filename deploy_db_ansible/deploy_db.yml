@@ -12,6 +12,7 @@
         state: present
         db_instance_identifier: '{{ instance_id }}'
         db_snapshot_identifier: '{{ db_snapshot }}'
+        engine: mysql
         region: us-east-1
         db_instance_class: db.t3.micro
         vpc_security_group_ids:
