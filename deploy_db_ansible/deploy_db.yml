@@ -6,6 +6,7 @@
     instance_id: wordpressdbclixxjenkins
     db_snapshot: clixx-retail-db-snapshot-tf
     security_group: sg-0146860400729edd7
+    subnet_group: default
   tasks:
     - name: Restore DB from snapshot
       amazon.aws.rds_instance:
@@ -15,6 +16,7 @@
         engine: mysql
         region: us-east-1
         db_instance_class: db.t3.micro
+        db_subnet_group_name: '{{ subnet_group }}'
         vpc_security_group_ids:
           - '{{ security_group }}'
         wait: yes
