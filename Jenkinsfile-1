@@ -94,6 +94,16 @@ pipeline {
                 '''
             }
         }
+
+        stage ('Log Into ECR and push the newly created Docker') {
+            steps {
+                sh '''
+                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 661779458432.dkr.ecr.us-east-1.amazonaws.com
+                docker tag clixx-image:$VERSION 661779458432.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:$VERSION
+                docker push 661779458432.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:$VERSION
+                '''
+            }
+        }
     }
 }
 
