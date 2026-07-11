@@ -11,6 +11,7 @@
     - name: Restore DB from snapshot
       amazon.aws.rds_instance:
         state: present
+        creation_source: snapshot
         db_instance_identifier: '{{ instance_id }}'
         db_snapshot_identifier: '{{ db_snapshot }}'
         engine: mysql
