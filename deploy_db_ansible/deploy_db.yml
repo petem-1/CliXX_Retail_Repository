@@ -1,0 +1,19 @@
+---
+- name: "CliXX DB Deployment Ansible Playbook"
+  hosts: localhost
+  connection: local
+  vars:
+    instance_id: wordpressdbclixxjenkins
+    db_snapshot: clixx-retail-db-snapshot-tf
+    security_group: sg-0146860400729edd7
+  tasks:
+    - name: Restore DB from snapshot
+      amazon.aws.rds_instance:
+        state: present
+        db_instance_identifier: '{{ instance_id }}'
+        db_snapshot_identifier: '{{ db_snapshot }}'
+        region: us-east-1
+        db_instance_class: db.t3.micro
+        vpc_security_group_ids:
+          - '{{ security_group }}'
+        wait: yes
