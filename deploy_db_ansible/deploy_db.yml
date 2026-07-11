@@ -4,9 +4,9 @@
   connection: local
   vars:
     instance_id: wordpressdbclixxjenkins
-    db_snapshot: clixx-retail-db-snapshot-tf
-    security_group: sg-0146860400729edd7
-    subnet_group: default
+    db_snapshot: arn:aws:rds:us-east-1:579750808937:snapshot:clixx-retail-db-snapshot-tf
+    security_group: sg-03161d13f8df2aa2d
+    subnet_group: clixx-db-subnet-group
   tasks:
     - name: Restore DB from snapshot
       amazon.aws.rds_instance:
